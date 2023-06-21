@@ -1,7 +1,7 @@
 # Echo Voucher
 
 ```
-Cartesi Rollups version: 0.8.x
+Cartesi Rollups version: 0.9.x
 ```
 
 The echo-voucher DApp works as an echo dapp, but instead it echoes assets back to the owner emitting vouchers, and also tries to emit vouchers when it receives a json object.
@@ -14,6 +14,12 @@ The documentation below reflects the original application code, and should also 
 ## Requirements
 
 Please refer to the [rollups-examples requirements](https://github.com/cartesi/rollups-examples/tree/main/README.md#requirements).
+
+This project works with [sunodo](https://github.com/sunodo/sunodo), so run it you should first install sunodo.
+
+```shell
+npm install -g @sunodo/cli
+```
 
 ## Building
 
