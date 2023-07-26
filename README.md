@@ -29,7 +29,7 @@ Build with:
 sunodo build
 ```
 
-## Building
+## Running
 
 Run with:
 
