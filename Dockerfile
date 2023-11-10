@@ -19,30 +19,27 @@ RUN pip install -r requirements.txt --no-cache \
 # runtime stage: produces final image that will be executed
 FROM --platform=linux/riscv64 cartesi/python:3.10-slim-jammy
 
-LABEL io.sunodo.sdk_version=0.1.0
+LABEL io.sunodo.sdk_version=0.2.0
 LABEL io.cartesi.rollups.ram_size=128Mi
 
-COPY --from=build-stage /opt/venv /opt/venv
-
+ARG MACHINE_EMULATOR_TOOLS_VERSION=0.12.0
 RUN <<EOF
 apt-get update
-apt-get install -y --no-install-recommends busybox-static=1:1.30.1-7ubuntu3
+apt-get install -y --no-install-recommends busybox-static=1:1.30.1-7ubuntu3 ca-certificates=20230311ubuntu0.22.04.1 curl=7.81.0-1ubuntu1.14
+curl -fsSL https://github.com/cartesi/machine-emulator-tools/releases/download/v${MACHINE_EMULATOR_TOOLS_VERSION}/machine-emulator-tools-v${MACHINE_EMULATOR_TOOLS_VERSION}.tar.gz \
+  | tar -C / --overwrite -xvzf -
 rm -rf /var/lib/apt/lists/*
 EOF
 
-COPY --from=sunodo/machine-emulator-tools:0.11.0-ubuntu22.04 / /
+COPY --from=build-stage /opt/venv /opt/venv
+
 ENV PATH="/opt/venv/bin:/opt/cartesi/bin:${PATH}"
 
 WORKDIR /opt/cartesi/dapp
 
 COPY echo-voucher.py .
-COPY networks.json .
-COPY entrypoint.sh .
 
 ENV ROLLUP_HTTP_SERVER_URL="http://127.0.0.1:5004"
 
-ARG NETWORK=localhost
-RUN echo ${NETWORK} > NETWORK
-
-ENTRYPOINT ["NETWORK=$(cat /opt/cartesi/dapp/NETWORK)"]
-CMD ["/opt/cartesi/dapp/entrypoint.sh"]
+ENTRYPOINT ["rollup-init"]
+CMD ["python3", "echo-voucher.py"]

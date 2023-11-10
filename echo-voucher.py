@@ -25,15 +25,10 @@ logger = logging.getLogger(__name__)
 rollup_server = environ["ROLLUP_HTTP_SERVER_URL"]
 logger.info(f"HTTP rollup_server url is {rollup_server}")
 
-NETWORK = environ["NETWORK"]
-logger.info(f"NETWORK is {NETWORK}")
-
-networks = json.load(open("networks.json"))
-
-DAPP_RELAY_ADDRESS = networks[NETWORK]["DAPP_RELAY_ADDRESS"].lower()
-ETHER_PORTAL_ADDRESS = networks[NETWORK]["ETHER_PORTAL_ADDRESS"].lower()
-ERC20_PORTAL_ADDRESS = networks[NETWORK]["ERC20_PORTAL_ADDRESS"].lower()
-ERC721_PORTAL_ADDRESS = networks[NETWORK]["ERC721_PORTAL_ADDRESS"].lower()
+DAPP_RELAY_ADDRESS      = "0xF5DE34d6BbC0446E2a45719E718efEbaaE179daE".lower()
+ETHER_PORTAL_ADDRESS    = "0xFfdbe43d4c855BF7e0f105c400A50857f53AB044".lower()
+ERC20_PORTAL_ADDRESS    = "0x9C21AEb2093C32DDbC53eEF24B873BDCd1aDa1DB".lower()
+ERC721_PORTAL_ADDRESS   = "0x237F8DD094C0e47f4236f12b4Fa01d6Dae89fb87".lower()
 
 rollup_address = None
 
